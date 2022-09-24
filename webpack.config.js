@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   // mode: "development",
@@ -11,6 +12,9 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html"
+    }),
+    new CopyPlugin({
+      patterns: [{ from: "./src/hearthstone/", to: "./hs" }]
     })
   ],
   resolve: {
@@ -40,6 +44,14 @@ module.exports = {
           // Compiles Sass to CSS
           "sass-loader"
         ]
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
+        generator: {
+          // put all generated assets into "dist/assets/"
+          filename: "assets/[name][ext]"
+        }
       }
     ]
   },
